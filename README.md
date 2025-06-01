@@ -3,7 +3,6 @@
 ## 1. Prerequisites
 
 - Install [Node.js](https://nodejs.org/)
-- Install [Yarn](https://classic.yarnpkg.com/lang/en/docs/install/)
 - Install [Expo CLI](https://docs.expo.dev/get-started/installation/):
   ```
   npm install -g expo-cli
@@ -15,7 +14,7 @@
 
 ## 2. Build the APK
 
-From your project root (`d:\Projects\HackVyuha 25`):
+From your project root:
 
 ### For Expo Managed Workflow
 
