@@ -1,18 +1,17 @@
-import React from 'react';
 import { View, StyleSheet, ViewProps, ViewStyle } from 'react-native';
-import { BlurView } from 'expo-blur';
+import BlurView from 'expo-blur/build/BlurView';
 import { useTheme } from '@/hooks/useTheme';
 import { Platform } from 'react-native';
 
 interface GlassCardProps extends ViewProps {
-  style?: ViewStyle;
+  style?: ViewStyle | ViewStyle[];
   children: React.ReactNode;
   intensity?: number;
 }
 
 export function GlassCard({ style, children, intensity = 20, ...props }: GlassCardProps) {
   const theme = useTheme();
-  
+
   // On web, we can't use BlurView, so we use a regular View
   if (Platform.OS === 'web') {
     return (
@@ -23,7 +22,8 @@ export function GlassCard({ style, children, intensity = 20, ...props }: GlassCa
             backgroundColor: theme.colors.glass.background,
             borderColor: theme.colors.glass.border,
           },
-          style,
+          // Ensure style is always an array
+          ...(Array.isArray(style) ? style : style ? [style] : []),
         ]}
         {...props}
       >
@@ -31,21 +31,21 @@ export function GlassCard({ style, children, intensity = 20, ...props }: GlassCa
       </View>
     );
   }
-  
+
   // On native, we can use BlurView for the glassmorphism effect
   return (
     <View
       style={[
         styles.container,
         { borderColor: theme.colors.glass.border },
-        style,
+        ...(Array.isArray(style) ? style : style ? [style] : []),
       ]}
       {...props}
     >
       <BlurView
         intensity={intensity}
         tint="dark"
-        style={StyleSheet.absoluteFill}
+        style={{ ...StyleSheet.absoluteFillObject }}
       />
       <View style={styles.content}>{children}</View>
     </View>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import {
   View,
   Text,
@@ -15,7 +15,7 @@ import { AppContext } from '@/context/AppContext';
 import { StreakBadge } from '@/components/streak/StreakBadge';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { Button } from '@/components/ui/Button';
-import { Clock, Brain, Smile, Trophy } from 'lucide-react-native';
+import { Feather, FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 
 export default function HomeScreen() {
@@ -125,19 +125,19 @@ export default function HomeScreen() {
             <Text style={[styles.cardTitle, { color: theme.colors.text.primary }]}>Today's Progress</Text>
             <View style={styles.statsGrid}>
               <View style={styles.statItem}>
-                <Clock size={24} color={theme.colors.primary} />
+                <Feather name="clock" size={24} color={theme.colors.primary} />
                 <Text style={[styles.statValue, { color: theme.colors.text.primary }]}>{todaysMinutes}</Text>
                 <Text style={[styles.statLabel, { color: theme.colors.text.secondary }]}>minutes</Text>
               </View>
               <View style={styles.statItem}>
-                <Brain size={24} color={theme.colors.secondary} />
+                <MaterialCommunityIcons name="brain" size={24} color={theme.colors.secondary} />
                 <Text style={[styles.statValue, { color: theme.colors.text.primary }]}>
                   {todaysSessions.length}
                 </Text>
                 <Text style={[styles.statLabel, { color: theme.colors.text.secondary }]}>sessions</Text>
               </View>
               <View style={styles.statItem}>
-                <Trophy size={24} color={theme.colors.accent} />
+                <FontAwesome name="trophy" size={24} color={theme.colors.accent} />
                 <Text style={[styles.statValue, { color: theme.colors.text.primary }]}>
                   {streakData.currentStreak}
                 </Text>
@@ -154,7 +154,7 @@ export default function HomeScreen() {
               onPress={() => router.push('/focus?mode=focus')}
               activeOpacity={0.8}
             >
-              <Clock size={24} color="#fff" />
+              <Feather name="clock" size={24} color="#fff" />
               <Text style={styles.actionText}>Focus Timer</Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -162,7 +162,7 @@ export default function HomeScreen() {
               onPress={() => router.push('/focus?mode=breathing')}
               activeOpacity={0.8}
             >
-              <Brain size={24} color="#fff" />
+              <MaterialCommunityIcons name="brain" size={24} color="#fff" />
               <Text style={styles.actionText}>Breathing</Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -170,7 +170,7 @@ export default function HomeScreen() {
               onPress={() => router.push('/moodCheck')}
               activeOpacity={0.8}
             >
-              <Smile size={24} color="#fff" />
+              <Feather name="smile" size={24} color="#fff" />
               <Text style={styles.actionText}>Mood Check</Text>
             </TouchableOpacity>
           </View>

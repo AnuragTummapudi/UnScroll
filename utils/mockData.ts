@@ -1,4 +1,4 @@
-import { User, Friend, DailyStats } from '@/types';
+import { User, Friend, DailyStats, WeeklyStats } from '@/types';
 
 export const mockUser: User = {
   id: 'user1',
@@ -52,7 +52,7 @@ export const mockFriends: Friend[] = [
   },
 ];
 
-export const mockWeeklyStats = {
+export const mockWeeklyStats: WeeklyStats = {
   focusMinutes: 280,
   activeDays: 5,
   moodAverage: 7.8,

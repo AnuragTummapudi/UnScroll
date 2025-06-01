@@ -1,12 +1,11 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
+import { useState, useEffect, useRef, useContext } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Animated, ScrollView, Alert, TextInput } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { BlurView } from 'expo-blur';
 import { useTheme } from '@/hooks/useTheme';
 import { AppContext } from '@/context/AppContext';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { Button } from '@/components/ui/Button';
-import { Clock, Pause, Play, RotateCcw, Check, Brain, Pencil } from 'lucide-react-native';
+import { Feather, MaterialCommunityIcons, FontAwesome } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 
@@ -39,7 +38,9 @@ export default function FocusScreen() {
   const [editExhale, setEditExhale] = useState(exhaleTime.toString());
 
   // Focus timer
-  const [timeLeft, setTimeLeft] = useState(mode === 'focus' ? focusMinutes * 60 : inhaleTime + exhaleTime);
+  const [timeLeft, setTimeLeft] = useState(
+    mode === 'focus' ? focusMinutes * 60 : inhaleTime + exhaleTime
+  );
   const totalTime = mode === 'focus' ? focusMinutes * 60 : inhaleTime + exhaleTime;
 
   // Animation values
@@ -174,8 +175,29 @@ export default function FocusScreen() {
     breathAnim.setValue(1);
   };
 
-  // Calculate progress percentage (focus mode)
-  const progress = ((totalTime - timeLeft) / totalTime) * 100;
+  // --- Smooth progress animation ---
+  const progressAnim = useRef(new Animated.Value(0)).current;
+  const [progress, setProgress] = useState(0);
+
+  // Animate progress smoothly as timeLeft changes
+  useEffect(() => {
+    if (mode !== 'focus') return;
+    const target = ((totalTime - timeLeft) / totalTime) * 100;
+    Animated.timing(progressAnim, {
+      toValue: target,
+      duration: 1000,
+      useNativeDriver: false,
+    }).start();
+    // eslint-disable-next-line
+  }, [timeLeft, totalTime, mode]);
+
+  // Keep progress state in sync for non-animated use
+  useEffect(() => {
+    if (mode === 'focus') {
+      setProgress(((totalTime - timeLeft) / totalTime) * 100);
+    }
+    // eslint-disable-next-line
+  }, [timeLeft, totalTime, mode]);
 
   // Save edited times
   const saveEdit = () => {
@@ -206,6 +228,16 @@ export default function FocusScreen() {
   useEffect(() => {
     setEditTab(mode);
   }, [mode]);
+
+  // Fix: Reset timeLeft when mode or focusMinutes/inhaleTime/exhaleTime changes
+  useEffect(() => {
+    if (mode === 'focus') {
+      setTimeLeft(focusMinutes * 60);
+    } else {
+      setTimeLeft(inhaleTime + exhaleTime);
+    }
+    // eslint-disable-next-line
+  }, [mode, focusMinutes, inhaleTime, exhaleTime]);
 
   // Handle mode change and highlight
   const handleModeChange = (newMode: 'focus' | 'breathing') => {
@@ -255,7 +287,7 @@ export default function FocusScreen() {
               <AnimatedCircularProgress
                 size={280}
                 width={15}
-                fill={progress}
+                fill={progress} // Use the number value, not the Animated.Value
                 tintColor={theme.colors.primary}
                 backgroundColor={theme.colors.glass.background}
                 rotation={0}
@@ -279,7 +311,7 @@ export default function FocusScreen() {
                     ) : (
                       <>
                         <View style={styles.completedIcon}>
-                          <Check size={48} color={theme.colors.success} />
+                          <Feather name="check" size={48} color={theme.colors.success} />
                         </View>
                         <Text style={[styles.completedText, { color: theme.colors.text.primary }]}>
                           Great job!
@@ -318,7 +350,7 @@ export default function FocusScreen() {
             <View style={styles.controlsContainer}>
               {!isRunning && !completed && (
                 <Button
-                  icon={<Play size={24} color="#fff" />}
+                  icon={<Feather name="play" size={24} color="#fff" />}
                   title="Start"
                   onPress={startTimer}
                   style={{ backgroundColor: mode === 'focus' ? theme.colors.primary : theme.colors.secondary }}
@@ -326,7 +358,7 @@ export default function FocusScreen() {
               )}
               {isRunning && !isPaused && (
                 <Button
-                  icon={<Pause size={24} color="#fff" />}
+                  icon={<Feather name="pause" size={24} color="#fff" />}
                   title="Pause"
                   onPress={pauseTimer}
                   style={{ backgroundColor: theme.colors.warningDark }}
@@ -335,13 +367,13 @@ export default function FocusScreen() {
               {isPaused && (
                 <View style={styles.pausedControls}>
                   <Button
-                    icon={<Play size={24} color="#fff" />}
+                    icon={<Feather name="play" size={24} color="#fff" />}
                     title="Resume"
                     onPress={resumeTimer}
                     style={{ flex: 1, backgroundColor: theme.colors.successDark, marginRight: 12 }}
                   />
                   <Button
-                    icon={<RotateCcw size={24} color="#fff" />}
+                    icon={<Feather name="rotate-ccw" size={24} color="#fff" />}
                     title="Reset"
                     onPress={resetTimer}
                     style={{ flex: 1, backgroundColor: theme.colors.error }}
@@ -350,7 +382,7 @@ export default function FocusScreen() {
               )}
               {completed && (
                 <Button
-                  icon={<RotateCcw size={24} color="#fff" />}
+                  icon={<Feather name="rotate-ccw" size={24} color="#fff" />}
                   title="Start Again"
                   onPress={resetTimer}
                   style={{ backgroundColor: mode === 'focus' ? theme.colors.primary : theme.colors.secondary }}
@@ -369,7 +401,8 @@ export default function FocusScreen() {
               ]}
               onPress={() => handleModeChange('focus')}
             >
-              <Clock
+              <Feather
+                name="clock"
                 size={24}
                 color={mode === 'focus' ? theme.colors.primary : theme.colors.text.secondary}
               />
@@ -391,7 +424,8 @@ export default function FocusScreen() {
               ]}
               onPress={() => handleModeChange('breathing')}
             >
-              <Brain
+              <MaterialCommunityIcons
+                name="brain"
                 size={24}
                 color={mode === 'breathing' ? theme.colors.secondary : theme.colors.text.secondary}
               />
@@ -411,7 +445,7 @@ export default function FocusScreen() {
               ]}
               onPress={() => setShowEdit(true)}
             >
-              <Pencil size={24} color={theme.colors.accent} />
+              <Feather name="edit-2" size={24} color={theme.colors.accent} />
               <Text style={[styles.modeText, { color: theme.colors.accent }]}>Edit</Text>
             </TouchableOpacity>
           </View>

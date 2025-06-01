@@ -1,8 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, Animated, TouchableOpacity, Platform } from 'react-native';
 import { useLocalSearchParams, router } from 'expo-router';
 import { useTheme } from '@/hooks/useTheme';
-import { X } from 'lucide-react-native';
+import { Feather } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 
 export default function StreakMilestoneModal() {
@@ -99,7 +99,7 @@ export default function StreakMilestoneModal() {
         style={styles.closeButton} 
         onPress={handleClose}
       >
-        <X size={24} color={theme.colors.text.primary} />
+        <Feather name="x" size={24} color={theme.colors.text.primary} />
       </TouchableOpacity>
       
       <Animated.View 

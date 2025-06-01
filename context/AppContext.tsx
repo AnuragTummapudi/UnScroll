@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from 'react';
+import { createContext, useState, useEffect } from 'react';
 import { mockUser, mockFriends } from '@/utils/mockData';
 import { User, Friend, StreakData, FocusSession } from '@/types';
 import { router } from 'expo-router';
@@ -8,7 +8,7 @@ interface AppContextType {
   friends: Friend[];
   streakData: StreakData;
   focusSessions: FocusSession[];
-  darkMode: boolean;
+  isDarkMode: boolean;
   updateUser: (data: Partial<User>) => void;
   updateStreak: (data: Partial<StreakData>) => void;
   addFocusSession: (session: FocusSession) => void;
@@ -29,7 +29,7 @@ const defaultContext: AppContextType = {
     history: [],
   },
   focusSessions: [],
-  darkMode: true,
+  isDarkMode: true,
   updateUser: () => {},
   updateStreak: () => {},
   addFocusSession: () => {},
@@ -56,7 +56,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }),
   });
   const [focusSessions, setFocusSessions] = useState<FocusSession[]>([]);
-  const [darkMode, setDarkMode] = useState<boolean>(true);
+  const [isDarkMode, setDarkMode] = useState<boolean>(true);
 
   // Update user data
   const updateUser = (data: Partial<User>) => {
@@ -165,7 +165,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setUser({ ...mockUser, id: '', username: '', displayName: '', email: '', avatar: '', joinDate: '' });
     setFocusSessions([]);
     // Optionally reset other state if needed
-    router.replace('/auth');
+    // router.replace('/auth');
   };
 
   return (
@@ -175,7 +175,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         friends,
         streakData,
         focusSessions,
-        darkMode,
+        isDarkMode,
         updateUser,
         updateStreak,
         addFocusSession,

@@ -1,11 +1,11 @@
-import React, { useState, useContext, useRef, useEffect } from 'react';
+import { useState, useContext, useRef, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, Dimensions, TouchableOpacity, Animated } from 'react-native';
 import { useTheme } from '@/hooks/useTheme';
 import { AppContext } from '@/context/AppContext';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { LineChart } from 'react-native-chart-kit';
 import { mockDailyStats, mockWeeklyStats } from '@/utils/mockData';
-import { Calendar, Clock, Smile, ArrowRight, Meh, Frown } from 'lucide-react-native';
+import { MaterialCommunityIcons, Feather, FontAwesome, AntDesign, Entypo } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useState as useReactState } from 'react';
 
@@ -39,9 +39,9 @@ export default function StatsScreen() {
 
   // Helper for mood label and icon
   const MOODS = [
-    { label: 'Happy', value: 'happy', icon: <Smile size={32} color="#22d3ee" />, color: '#22d3ee' },
-    { label: 'Neutral', value: 'neutral', icon: <Meh size={32} color="#fbbf24" />, color: '#fbbf24' },
-    { label: 'Sad', value: 'sad', icon: <Frown size={32} color="#f87171" />, color: '#f87171' },
+    { label: 'Happy', value: 'happy', icon: <Feather name="smile" size={32} color="#22d3ee" />, color: '#22d3ee' },
+    { label: 'Neutral', value: 'neutral', icon: <Feather name="meh" size={32} color="#fbbf24" />, color: '#fbbf24' },
+    { label: 'Sad', value: 'sad', icon: <Feather name="frown" size={32} color="#f87171" />, color: '#f87171' },
   ];
   const moodObj = MOODS.find(m => m.value === todayMood);
 
@@ -188,7 +188,7 @@ export default function StatsScreen() {
                 <View style={styles.dailyStats}>
                   <View style={styles.statColumn}>
                     <View style={styles.statItem}>
-                      <Clock size={20} color={theme.colors.primary} style={styles.statIcon} />
+                      <Feather name="clock" size={20} color={theme.colors.primary} style={styles.statIcon} />
                       <View>
                         <Text style={[styles.statValue, { color: theme.colors.text.primary }]}>
                           {todayStats.focusMinutes} min
@@ -199,7 +199,7 @@ export default function StatsScreen() {
                       </View>
                     </View>
                     <View style={styles.statItem}>
-                      <Calendar size={20} color={theme.colors.secondary} style={styles.statIcon} />
+                      <Feather name="calendar" size={20} color={theme.colors.secondary} style={styles.statIcon} />
                       <View>
                         <Text style={[styles.statValue, { color: theme.colors.text.primary }]}>
                           {todayStats.sessions}
@@ -215,7 +215,7 @@ export default function StatsScreen() {
                       Today's Mood
                     </Text>
                     <View style={styles.moodValue}>
-                      {moodObj ? moodObj.icon : <Smile size={32} color={theme.colors.text.tertiary} />}
+                      {moodObj ? moodObj.icon : <Feather name="smile" size={32} color={theme.colors.text.tertiary} />}
                       <Text style={[
                         styles.moodText,
                         { color: moodObj ? moodObj.color : theme.colors.text.tertiary }
@@ -259,7 +259,7 @@ export default function StatsScreen() {
                   <Text style={[styles.streakButtonText, { color: theme.colors.primary }]}>
                     View Details
                   </Text>
-                  <ArrowRight size={16} color={theme.colors.primary} />
+                  <Feather name="arrow-right" size={16} color={theme.colors.primary} />
                 </TouchableOpacity>
               </GlassCard>
             </>

@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { useTheme } from '@/hooks/useTheme';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { Button } from '@/components/ui/Button';
-import { Smile, Meh, Frown, BarChart2, ArrowLeft } from 'lucide-react-native';
+// Replace Lucide icons with Expo vector icons
+import { MaterialCommunityIcons, Feather, FontAwesome, AntDesign } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 
 const MOODS = [
-  { label: 'Happy', icon: <Smile size={32} color="#22d3ee" />, value: 'happy', color: '#22d3ee' },
-  { label: 'Neutral', icon: <Meh size={32} color="#fbbf24" />, value: 'neutral', color: '#fbbf24' },
-  { label: 'Sad', icon: <Frown size={32} color="#f87171" />, value: 'sad', color: '#f87171' },
+  { label: 'Happy', icon: <Feather name="smile" size={32} color="#22d3ee" />, value: 'happy', color: '#22d3ee' },
+  { label: 'Neutral', icon: <Feather name="meh" size={32} color="#fbbf24" />, value: 'neutral', color: '#fbbf24' },
+  { label: 'Sad', icon: <Feather name="frown" size={32} color="#f87171" />, value: 'sad', color: '#f87171' },
 ];
 
 export default function MoodCheckScreen() {
@@ -55,7 +56,7 @@ export default function MoodCheckScreen() {
   return (
     <View style={[styles.container, { backgroundColor: theme.colors.background.primary }]}>
       <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
-        <ArrowLeft size={24} color={theme.colors.text.primary} />
+        <Feather name="arrow-left" size={24} color={theme.colors.text.primary} />
         <Text style={[styles.backText, { color: theme.colors.text.primary }]}>Back</Text>
       </TouchableOpacity>
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
@@ -107,7 +108,7 @@ export default function MoodCheckScreen() {
             ))}
           </View>
           <View style={styles.historyHeader}>
-            <BarChart2 size={20} color={theme.colors.primary} />
+            <MaterialCommunityIcons name="chart-bar" size={20} color={theme.colors.primary} />
             <Text style={[styles.historyTitle, { color: theme.colors.text.primary }]}>Recent Entries</Text>
           </View>
           {history.length === 0 ? (
@@ -154,8 +155,7 @@ export default function MoodCheckScreen() {
                 </View>
               </View>
             ))
-          )
-          }
+          )}
         </GlassCard>
       </ScrollView>
     </View>

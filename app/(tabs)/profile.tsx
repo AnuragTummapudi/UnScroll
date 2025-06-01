@@ -1,16 +1,16 @@
-import React, { useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity, Switch } from 'react-native';
 import { useTheme } from '@/hooks/useTheme';
 import { AppContext } from '@/context/AppContext';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { Button } from '@/components/ui/Button';
 import { TextInput } from '@/components/ui/TextInput';
-import { User, Settings, LogOut, Bell, Moon, CircleHelp as HelpCircle, Shield, Camera, ChevronRight } from 'lucide-react-native';
+import { Feather, MaterialCommunityIcons, FontAwesome, AntDesign, Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 
 export default function ProfileScreen() {
   const theme = useTheme();
-  const { user, streakData, updateUser, toggleDarkMode, logout } = useContext(AppContext);
+  const { user, streakData, updateUser, toggleDarkMode, logout, isDarkMode } = useContext(AppContext);
   const router = useRouter();
   const [isEditing, setIsEditing] = useState(false);
   const [editedUser, setEditedUser] = useState({ ...user });
@@ -65,7 +65,7 @@ export default function ProfileScreen() {
           <Text style={[styles.title, { color: theme.colors.text.primary }]}>Profile</Text>
           {!isEditing && (
             <TouchableOpacity onPress={handleEdit}>
-              <Settings size={24} color={theme.colors.text.primary} />
+              <Feather name="settings" size={24} color={theme.colors.text.primary} />
             </TouchableOpacity>
           )}
         </View>
@@ -80,7 +80,7 @@ export default function ProfileScreen() {
               />
               {isEditing && (
                 <TouchableOpacity style={[styles.cameraButton, { backgroundColor: theme.colors.primary }]}>
-                  <Camera size={16} color="#fff" />
+                  <Feather name="camera" size={16} color="#fff" />
                 </TouchableOpacity>
               )}
             </View>
@@ -191,7 +191,7 @@ export default function ProfileScreen() {
             <GlassCard style={styles.settingsCard}>
               {/* Notifications Toggle */}
               <View style={styles.settingItem}>
-                <Bell size={20} color={theme.colors.text.primary} style={styles.settingIcon} />
+                <Feather name="bell" size={20} color={theme.colors.text.primary} style={styles.settingIcon} />
                 <View style={styles.settingContent}>
                   <Text style={[styles.settingTitle, { color: theme.colors.text.primary }]}>
                     Notifications
@@ -211,7 +211,7 @@ export default function ProfileScreen() {
               </View>
               {/* Dark Mode Toggle */}
               <View style={styles.settingItem}>
-                <Moon size={20} color={theme.colors.text.primary} style={styles.settingIcon} />
+                <Feather name="moon" size={20} color={theme.colors.text.primary} style={styles.settingIcon} />
                 <View style={styles.settingContent}>
                   <Text style={[styles.settingTitle, { color: theme.colors.text.primary }]}>
                     Dark Mode
@@ -221,17 +221,17 @@ export default function ProfileScreen() {
                   </Text>
                 </View>
                 <Switch
-                  value={user.isDarkMode}
+                  value={isDarkMode}
                   onValueChange={toggleDarkMode}
                   trackColor={{ false: theme.colors.background.elevation, true: theme.colors.primary }}
-                  thumbColor={user.isDarkMode ? theme.colors.primary : theme.colors.text.tertiary}
+                  thumbColor={isDarkMode ? theme.colors.primary : theme.colors.text.tertiary}
                   ios_backgroundColor={theme.colors.background.elevation}
                   style={styles.settingSwitch}
                 />
               </View>
               {/* Privacy Toggle */}
               <View style={styles.settingItem}>
-                <Shield size={20} color={theme.colors.text.primary} style={styles.settingIcon} />
+                <Feather name="shield" size={20} color={theme.colors.text.primary} style={styles.settingIcon} />
                 <View style={styles.settingContent}>
                   <Text style={[styles.settingTitle, { color: theme.colors.text.primary }]}>
                     Privacy
@@ -251,7 +251,7 @@ export default function ProfileScreen() {
               </View>
               {/* Help Toggle */}
               <View style={styles.settingItem}>
-                <HelpCircle size={20} color={theme.colors.text.primary} style={styles.settingIcon} />
+                <Feather name="help-circle" size={20} color={theme.colors.text.primary} style={styles.settingIcon} />
                 <View style={styles.settingContent}>
                   <Text style={[styles.settingTitle, { color: theme.colors.text.primary }]}>
                     Help & Support
@@ -274,7 +274,7 @@ export default function ProfileScreen() {
               style={[styles.logoutButton, { borderColor: theme.colors.error }]}
               onPress={() => router.replace('/signin')}
             >
-              <LogOut size={20} color={theme.colors.error} style={styles.logoutIcon} />
+              <Feather name="log-out" size={20} color={theme.colors.error} style={styles.logoutIcon} />
               <Text style={[styles.logoutText, { color: theme.colors.error }]}>
                 Logout
               </Text>
